@@ -1,0 +1,95 @@
+{% extends 'layout.html' %} {% block content %}
+<main class="container mt-3">
+  <h1>Hola Mundo!</h1>
+
+  <div class="container row">
+    <div class="col-4">
+      <div class="card text-white bg-info" style="max-width: 20rem">
+        <div class="card-body">
+          <p>
+            Esta simple y humilde web se encarga de graficar tus datos numericos
+            de forma automatica ¿Recuerdas cuando lo hacias de estudiante? Para
+            generar estas graficas necesito que ingreses datos de los ejes X y
+            Y.
+          </p>
+        </div>
+      </div>
+
+      <div
+        class="card text-white bg-warning ms-auto mt-1"
+        style="max-width: 20rem"
+      >
+        <div class="card-body">
+          <h4 class="card-title">Recordemos que:</h4>
+          <p class="card-text">
+            Se denomina gráfico a una representación visual de una serie de
+            datos, representación que tiene como finalidad dar una rápida noción
+            acerca de volúmenes, cantidades y porcentajes, estableciendo
+            comparaciones.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="col col-md card">
+      <form action="" method="post">
+        <div class="form-group mb-3">
+          <label for="axisX">Eje X</label>
+          <input
+            type="text"
+            class="form-control"
+            id="axisX"
+            name="axisX"
+            placeholder="Ejemplo: lunes;martes;miercoles;jueves"
+            value="{{field_x}}"
+          />
+
+        </div>
+        <div class="form-group">
+          <label for="axisY">Eje Y</label>
+          <input
+            type="text"
+            class="form-control"
+            id="axisY"
+            name="axisY"
+            value="{{field_y}}"
+          />
+          <small id="emailHelp" class="form-text text-muted"
+            >Los elementos deben estar separados por espacios.</small
+          >
+        </div>
+        <input class="mt-3 btn btn-success" type="submit" value="Graficar" />
+      </form>
+
+      <canvas id="myTask"></canvas>
+    </div>
+  </div>
+</main>
+
+<div></div>
+
+<script src="{{ url_for('static', filename='js/chart.js') }}"></script>
+
+<script>
+  const ctx = document.getElementById('myTask');
+
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: {{data_x | safe}},
+      datasets: [{
+        label: 'Datos',
+        data: {{data_y | safe}},
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+</script>
+
+{% endblock %}
